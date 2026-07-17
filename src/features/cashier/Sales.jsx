@@ -19,6 +19,9 @@ const TerminalPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [productsLoading, setProductsLoading] = useState(true);
+  
+  // Mobile active tab: "products" or "cart"
+  const [activeTab, setActiveTab] = useState("products");
 
   // FETCH PRODUCTS
   useEffect(() => {
@@ -98,11 +101,36 @@ const TerminalPage = () => {
   }, [cart]);
 
   return (
-    <div className="h-175 bg-[#050505] text-slate-300 p-4 flex gap-4 overflow-hidden font-sans ">
+    <div className="h-screen lg:h-175 bg-[#050505] text-slate-300 p-4 flex flex-col lg:flex-row gap-4 overflow-hidden font-sans">
+      
+      {/* MOBILE ONLY TAB SWITCHER */}
+      <div className="flex lg:hidden bg-[#111113] border border-white/5 rounded-2xl p-1 gap-1 shrink-0">
+        <button
+          onClick={() => setActiveTab("products")}
+          className={`flex-1 py-3 text-center text-xs font-black uppercase tracking-wider rounded-xl transition-all ${
+            activeTab === "products"
+              ? "bg-blue-600 text-white"
+              : "text-slate-400 hover:text-white"
+          }`}
+        >
+          Products
+        </button>
+        <button
+          onClick={() => setActiveTab("cart")}
+          className={`flex-1 py-3 text-center text-xs font-black uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 ${
+            activeTab === "cart"
+              ? "bg-blue-600 text-white"
+              : "text-slate-400 hover:text-white"
+          }`}
+        >
+          Cart ({cart.length})
+        </button>
+      </div>
+
       {/* LEFT COLUMN: PRODUCT EXPLORER */}
-      <div className="flex-1 flex flex-col gap-4 min-w-0">
+      <div className={`flex-1 flex flex-col gap-4 min-w-0 ${activeTab === "products" ? "flex" : "hidden lg:flex"}`}>
         {/* TOP BENTO CARD: SEARCH */}
-        <div className="bg-[#111113] border border-white/5 rounded-[24px] p-4 flex items-center gap-4 shadow-2xl">
+        <div className="bg-[#111113] border border-white/5 rounded-[24px] p-4 flex items-center gap-4 shadow-2xl shrink-0">
           <div className="flex-1 relative group">
             <Search
               className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-blue-500 transition-colors"
@@ -127,28 +155,8 @@ const TerminalPage = () => {
         {/* MAIN BENTO CARD: PRODUCT GRID */}
         <div className="flex-1 bg-[#111113] border border-white/5 rounded-[32px] p-6 overflow-y-auto custom-scrollbar shadow-2xl">
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {/* {filteredProducts.map((product) => (
-              <button
-                key={product.id}
-                onClick={() => addToCart(product)}
-                className="relative overflow-hidden bg-white/[0.02] border border-white/5 p-5 rounded-[24px] hover:bg-blue-600 group transition-all active:scale-95 text-left flex flex-col justify-between h-40 shadow-lg"
-              >
-                <div className="flex justify-between items-start">
-                   <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-slate-400 group-hover:bg-white/20 group-hover:text-white transition-all">
-                     <Box size={20} />
-                   </div>
-                   <span className="text-[10px] font-black text-blue-500 group-hover:text-white transition-colors bg-blue-500/10 group-hover:bg-white/10 px-2 py-1 rounded-lg uppercase">In Stock</span>
-                </div>
-                <div>
-                  <p className="font-black text-white uppercase tracking-tight text-sm leading-tight group-hover:text-white transition-colors">{product.name}</p>
-                  <p className="text-blue-500 group-hover:text-white font-mono font-black mt-1 text-lg transition-colors">
-                    ${Number(product.price).toFixed(2)}
-                  </p>
-                </div>
-              </button>
-            ))} */}
             {productsLoading ? (
-              <div className="col-span-full flex justify-center items-center h-[calc(100vh-220px)] w-full">
+              <div className="col-span-full flex justify-center items-center h-48 lg:h-[calc(100vh-220px)] w-full">
                 <Loader2 className="animate-spin text-blue-500" size={40} />
               </div>
             ) : filteredProducts.length > 0 ? (
@@ -189,7 +197,7 @@ const TerminalPage = () => {
       </div>
 
       {/* RIGHT COLUMN: THE CHECKOUT GLASS-CARD */}
-      <div className="w-[420px] bg-[#111113]/80 backdrop-blur-2xl border border-white/10 rounded-[32px] flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden">
+      <div className={`w-full lg:w-[420px] shrink-0 bg-[#111113]/80 backdrop-blur-2xl border border-white/10 rounded-[32px] flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden ${activeTab === "cart" ? "flex" : "hidden lg:flex"}`}>
         <div className="p-8 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-500/20 rounded-lg text-blue-500">
@@ -207,7 +215,7 @@ const TerminalPage = () => {
         {/* CART ITEMS AREA */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
           {cart.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center opacity-20">
+            <div className="h-full flex flex-col items-center justify-center opacity-20 py-12">
               <Zap size={60} className="mb-4 text-slate-500" />
               <p className="text-xs font-black uppercase tracking-[0.3em]">
                 Standby Mode
@@ -250,7 +258,7 @@ const TerminalPage = () => {
         </div>
 
         {/* RECEIPT FOOTER */}
-        <div className="p-4 bg-black/40 border-t border-white/10 rounded-t-[32px]">
+        <div className="p-4 bg-black/40 border-t border-white/10 rounded-t-[32px] shrink-0">
           <div className="space-y-2 mb-7">
             <div className="flex justify-between text-xs font-bold uppercase text-slate-500 tracking-tighter">
               <span>Subtotal</span>

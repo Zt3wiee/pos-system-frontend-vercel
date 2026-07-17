@@ -28,11 +28,11 @@ const OrdersPage = () => {
   return (
     <div className=" flex flex-col h-full bg-[#0a0a0c] text-slate-300 rounded-[32px] overflow-hidden border border-white/5 shadow-2xl">
       {/* 1. GLASS HEADER & SEARCH */}
-      <div className="p-8 border-b border-white/5 bg-white/[0.02] backdrop-blur-md flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+      <div className="p-4 md:p-8 border-b border-white/5 bg-white/[0.02] backdrop-blur-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-6">
         <div>
           <div className="flex items-center gap-3 mb-1">
             <div className="w-1.5 h-5 bg-blue-500 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
-            <h2 className="text-2xl font-black text-white tracking-tighter uppercase italic">
+            <h2 className="text-xl md:text-2xl font-black text-white tracking-tighter uppercase italic">
               Order Ledger
             </h2>
           </div>
@@ -41,7 +41,7 @@ const OrdersPage = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 w-full md:w-auto">
+        <div className="flex items-center gap-2 md:gap-3 w-full md:w-auto">
           <div className="relative flex-1 md:w-80">
             <Search
               className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600"
@@ -153,7 +153,7 @@ const OrdersPage = () => {
       </div>
 
       {/* 3. FOOTER / PAGINATION */}
-      <div className="p-6 border-t border-white/5 bg-white/[0.01] flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div className="p-4 md:p-6 border-t border-white/5 bg-white/[0.01] flex flex-col sm:flex-row justify-between items-center gap-4">
         <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">
           Total Transactions:{" "}
           <span className="text-slate-400">{orders?.length || 0}</span>

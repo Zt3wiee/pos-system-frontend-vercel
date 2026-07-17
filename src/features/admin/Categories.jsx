@@ -11,13 +11,13 @@ import SearchInput from "../../components/SearchInput";
 export default function Categories() {
   // Destructure a delete function if your hook provides it,
   // or use refreshCategories after an API call
-  const { categories, loading,search, setSearch, refreshCategories } = useCategories();
+  const { categories, loading, search, setSearch, refreshCategories } =
+    useCategories();
   const [openAddModal, setOpenAddModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-  if (loading) 
-    return <LoadingSpinnerAdmin />;
+  if (loading) return <LoadingSpinnerAdmin />;
 
   // <LoadingSpinner theme="light" />;
 
@@ -70,12 +70,13 @@ export default function Categories() {
           />
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="w-full sm:w-auto flex items-center">
           <button
             onClick={handleAddClick}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold flex items-center gap-2 shadow-sm transition-all active:scale-95"
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold flex items-center justify-center gap-2 shadow-sm transition-all active:scale-95"
           >
-            <Plus size={18} /> Add Category
+            <Plus size={18} />
+            <span>Add Category</span>
           </button>
         </div>
       </div>
@@ -83,58 +84,59 @@ export default function Categories() {
       {/* GRID */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {categories.length === 0 ? (
-           
-                  <div className="col-span-full h-64 flex items-center justify-center">
-                    <p className="text-slate-500 font-semibold dark:text-gray-400">
-                      No categories found
-                    </p>
-                  </div>
-               
-        ) : (
-        categories.map((cat) => (
-          <div
-            key={cat.id}
-            className="group bg-white border dark:bg-zinc-800 border-slate-200 p-5 rounded-2xl hover:shadow-xl transition-all relative"
-          >
-            {/* ACTION BUTTONS (Top Right) */}
-            <div className="absolute top-4 right-4 flex gap-1">
-              {/* EDIT */}
-              <button
-                onClick={() => handleEditClick(cat)}
-                className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all"
-                title="Edit Category"
-              >
-                <Edit3 size={18} />
-              </button>
-
-              {/* DELETE */}
-              <button
-                onClick={() => handleDeleteClick(cat.id, cat.name)}
-                className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all"
-                title="Delete Category"
-              >
-                <Trash2 size={18} />
-              </button>
-            </div>
-
-            <div className="flex justify-between items-start mb-4">
-              <div
-                className={`w-14 h-14 ${cat.bgColor || "bg-slate-100"} rounded-2xl flex items-center justify-center text-3xl shadow-sm`}
-              >
-                {cat.emoji || "📁"}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold text-slate-800 dark:text-white">{cat.name}</h3>
-              <div className="flex items-center justify-between mt-1">
-                <span className="text-slate-400 text-xs font-medium uppercase">
-                  {cat.products_count || 0} Products
-                </span>
-              </div>
-            </div>
+          <div className="col-span-full h-64 flex items-center justify-center">
+            <p className="text-slate-500 font-semibold dark:text-gray-400">
+              No categories found
+            </p>
           </div>
-        )))}
+        ) : (
+          categories.map((cat) => (
+            <div
+              key={cat.id}
+              className="group bg-white border dark:bg-zinc-800 border-slate-200 p-5 rounded-2xl hover:shadow-xl transition-all relative"
+            >
+              {/* ACTION BUTTONS (Top Right) */}
+              <div className="absolute top-4 right-4 flex gap-1">
+                {/* EDIT */}
+                <button
+                  onClick={() => handleEditClick(cat)}
+                  className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all"
+                  title="Edit Category"
+                >
+                  <Edit3 size={18} />
+                </button>
+
+                {/* DELETE */}
+                <button
+                  onClick={() => handleDeleteClick(cat.id, cat.name)}
+                  className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all"
+                  title="Delete Category"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
+
+              <div className="flex justify-between items-start mb-4">
+                <div
+                  className={`w-14 h-14 ${cat.bgColor || "bg-slate-100"} rounded-2xl flex items-center justify-center text-3xl shadow-sm`}
+                >
+                  {cat.emoji || "📁"}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-slate-800 dark:text-white">
+                  {cat.name}
+                </h3>
+                <div className="flex items-center justify-between mt-1">
+                  <span className="text-slate-400 text-xs font-medium uppercase">
+                    {cat.products_count || 0} Products
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       {/* MODALS */}

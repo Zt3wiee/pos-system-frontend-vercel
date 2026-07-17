@@ -123,80 +123,80 @@ export default function AdminDashboard() {
       {/* --- Bottom Section: Split Grid --- */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         {/* --- Recent Orders: Clean Table Layout --- */}
+        
         <div className="lg:col-span-2">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-1 h-5 bg-blue-600 rounded-full" />
-              <h3 className="text-xl font-black text-slate-800 dark:text-white uppercase italic tracking-tighter">
-                Recent Orders
-              </h3>
-            </div>
-            {orders.length > 6 && (
-              <button
-                onClick={() => setShowAll(!showAll)}
-                className="text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group"
-              >
-                {showAll ? "Show Less" : "See More"}
-                <ChevronRight
-                  size={16}
-                  className="transition-transform group-hover:translate-x-1"
-                />
-              </button>
-            )}
-          </div>
+  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+    <div className="flex items-center gap-3">
+      <div className="w-1 h-5 bg-blue-600 rounded-full" />
+      <h3 className="text-lg sm:text-xl font-black text-slate-800 dark:text-white uppercase italic tracking-tighter">
+        Recent Orders
+      </h3>
+    </div>
 
-          <div className="bg-white dark:bg-zinc-800 border border-slate-100 dark:border-zinc-600 rounded-[32px] overflow-hidden shadow-2xl shadow-slate-100/30">
-            <table className="w-full text-left table-fixed">
-              <thead>
-                <tr className="bg-slate-900 text-white  text-[10px] uppercase tracking-[0.2em] font-black">
-                  <th className="py-5 px-8">Order ID</th>
-                  <th className="py-5 px-20">Customer</th>
-                  <th className="py-5 px-8 text-right">Amount</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-50 dark:divide-zinc-600">
-                {displayOrders
-                  .slice(0, showAll ? displayOrders.length : 4)
-                  .map((order, i) => (
-                    <tr
-                      key={i}
-                      className="group hover:bg-blue-50/30 dark:hover:bg-blue-50/30 transition-all cursor-default"
-                    >
-                      <td className="py-5 px-10 font-mono text-blue-600 font-bold">
-                        {loading ? "..." : `#${order.id}`}
-                      </td>
-                      <td className="py-5 px-22 font-extrabold text-slate-700 dark:text-white">
-                        {loading ? "Loading..." : order.user.name}
-                      </td>
-                      <td className="py-5 px-9 text-right font-black text-slate-900 dark:text-white text-lg">
-                        {loading ? "..." : order.total_amount}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-            {/* {orders.length > 6 && (
-              <div className="flex justify-center mt-6">
-                <button
-                  onClick={() => setShowAll(!showAll)}
-                  className="px-5 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-500 transition"
-                >
-                  {showAll ? "Show Less" : "See More"}
-                </button>
-              </div>
-            )} */}
-            {showAll && (
-              <div className="flex justify-center mt-6 pb-4">
-                <button
-                  onClick={() => setShowAll(false)}
-                  className="px-5 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-500 transition"
-                >
-                  Show Less
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+    {orders.length > 6 && (
+      <button
+        onClick={() => setShowAll(!showAll)}
+        className="self-start sm:self-auto text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group"
+      >
+        {showAll ? "Show Less" : "See More"}
+        <ChevronRight
+          size={16}
+          className="transition-transform group-hover:translate-x-1"
+        />
+      </button>
+    )}
+  </div>
+
+  <div className="bg-white dark:bg-zinc-800 border border-slate-100 dark:border-zinc-600 rounded-2xl md:rounded-[32px] overflow-hidden shadow-2xl shadow-slate-100/30">
+
+    {/* Responsive Table */}
+    <div className="overflow-x-auto">
+      <table className="min-w-[500px] w-full text-left table-fixed">
+        <thead>
+          <tr className="bg-slate-900 text-white text-[10px] uppercase tracking-[0.2em] font-black">
+            <th className="py-4 px-4 md:px-8">Order ID</th>
+            <th className="py-4 px-4 md:px-8">Customer</th>
+            <th className="py-4 px-4 md:px-8 text-right">Amount</th>
+          </tr>
+        </thead>
+
+        <tbody className="divide-y divide-slate-50 dark:divide-zinc-600">
+          {displayOrders
+            .slice(0, showAll ? displayOrders.length : 4)
+            .map((order, i) => (
+              <tr
+                key={i}
+                className="group hover:bg-blue-50/30 dark:hover:bg-blue-50/30 transition-all"
+              >
+                <td className="py-4 px-4 md:px-8 font-mono text-blue-600 font-bold whitespace-nowrap">
+                  {loading ? "..." : `#${order.id}`}
+                </td>
+
+                <td className="py-4 px-4 md:px-8 font-bold text-slate-700 dark:text-white whitespace-nowrap">
+                  {loading ? "Loading..." : order.user.name}
+                </td>
+
+                <td className="py-4 px-4 md:px-8 text-right font-black text-slate-900 dark:text-white">
+                  {loading ? "..." : `$${order.total_amount}`}
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+
+    {showAll && (
+      <div className="flex justify-center p-4">
+        <button
+          onClick={() => setShowAll(false)}
+          className="px-5 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-500 transition"
+        >
+          Show Less
+        </button>
+      </div>
+    )}
+  </div>
+</div>
 
         {/* --- Quick Actions: Solid Cards with Icons --- */}
         <div>

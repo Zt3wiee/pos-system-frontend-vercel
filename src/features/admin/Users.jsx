@@ -18,8 +18,6 @@ export default function UserManagementPage() {
     // return <LoadingSpinner theme="light"/> 
     return <LoadingSpinnerAdmin />
     }
-
-
   // handle delete with comfirmation
   const handleDelete = async (userId,name) => {
     if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
@@ -34,13 +32,13 @@ export default function UserManagementPage() {
 
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-gray-100 dark:border-zinc-600 overflow-hidden">
-      <div className="p-6 border-b flex justify-between items-center">
+      <div className="p-4 md:p-6 border-b flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <h2 className="font-bold text-lg text-slate-800 dark:text-white">Staff Accounts</h2>
           <p className="text-sm text-gray-500 dark:text-slate-400">Manage store personnel and access levels</p>
         </div>
 
-        <div className="flex-1 max-w-xl relative group">
+        <div className="w-full lg:flex-1 lg:max-w-xl relative group">
           <Search
             className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors"
             size={20}
@@ -54,18 +52,16 @@ export default function UserManagementPage() {
           />
         </div>
 
-
-
         <button  onClick={() => {
           console.log("Opening Add User Modal")
           setOpenModal(true)
         }}
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md hover:bg-blue-700">
+        className="w-full lg:w-auto bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md hover:bg-blue-700">
           + Add New User
         </button>
       </div>
-
-      <table className="w-full text-left">
+      <div className="overflow-x-auto">
+      <table className="min-w-[650px] w-full text-left">
         <thead className="bg-gray-50 text-xs text-gray-500 uppercase dark:bg-gray-950 dark:text-gray-300">
           <tr>
             <th className="px-6 py-3">Name</th>
@@ -112,6 +108,7 @@ export default function UserManagementPage() {
           )))}
         </tbody>
       </table>
+      </div>
         {/* Modal */}
       <AddUserModal openModal={openModal} setOpenModal={setOpenModal} onUserCreated={refetch}/>
       <EditUserModal isOpen={!!selectedUser} onClose={() => setSelectedUser(null)} user={selectedUser} onUserUpdated={refetch}/>
